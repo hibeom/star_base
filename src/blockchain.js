@@ -230,6 +230,7 @@ class Blockchain {
                     if(!data) errorLog.push('block:' + p.height + ' is not valid');
                 });
             });
+            resolve(errorLog);
         });
     }
 
