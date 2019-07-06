@@ -128,23 +128,27 @@ class Blockchain {
             let currentTime = parseInt(new Date().getTime().toString().slice(0, -3));
             //step 3
             if(currentTime - messageTime > 300){
-                reject(new Error('time elapse error!'));
-                //reject(null);
-            }
-            //step 4
-            if(bitcoinMessage.verify(message, address, signature)){
-                //step 5
-                var dataObj = {
-                    data : star,
-                    address : address
-                }
-                let block = new BlockClass.Block(dataObj);
-                //step 6
-                resolve(self._addBlock(block));
+                //reject(new Error('time elapse error!'));
+                //should resolve null to generate error.
+                //because BlockchainController does not catch reject from the Promise..
+                resolve(null);
             } else {
-                reject(new Error('fail to verify message.'));
-                //reject(null);
+                //step 4
+                if(bitcoinMessage.verify(message, address, signature)){
+                    //step 5
+                    var dataObj = {
+                        data : star,
+                        address : address
+                    }
+                    let block = new BlockClass.Block(dataObj);
+                    //step 6
+                    resolve(self._addBlock(block));
+                } else {
+                    resolve(null);
+                }
             }
+            
+
         });
     }
 
