@@ -47,8 +47,12 @@ class Block {
             // Returning the Block is not valid
             // Returning the Block is valid
             if(tmpHash === currentHash){
+                //now block's hash is null, so reenter the hash value.
+                self.hash = currentHash;
+                //and then resolve the result.
                 resolve(true);
             } else {
+                self.hash = tmpHash;
                 resolve(false);
             }
             reject(new Error('error in validate method of Block class.'));
