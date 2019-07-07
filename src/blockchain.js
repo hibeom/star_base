@@ -200,9 +200,15 @@ class Blockchain {
         let stars = [];
         return new Promise((resolve, reject) => {
             self.chain.forEach(p => {
+                //starInfo has 'owner' and 'star' property.
+                //'owner' property has user's address
+                //'star' property has star data (dec, ra, story)
+                var starInfo = {};
                 var dataObj = JSON.parse(hex2ascii(p.body));
                 if(dataObj.address == address){
-                    stars.push(p.getBData());
+                    starInfo.owner = address;
+                    starInfo.star = p.getBData();
+                    stars.push(starInfo);
                 }
             });
             resolve(stars);
